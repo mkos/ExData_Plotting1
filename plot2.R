@@ -4,5 +4,5 @@ power <- power[power$Date == as.Date("2007-02-01","%Y-%m-%d") | power$Date == as
 power$dateTime   <- as.POSIXlt(paste(power$Date, power$Time, sep=" "))
 
 png("plot2.png")
-hist(power$Global_active_power, col = "red", xlab = "Global Active Power (kilowatts)", main = "Global Active Power")
+with(power, plot(dateTime, Global_active_power, type = "l", xlab = "", ylab = "Global Active Power (kilowatts)"))
 dev.off()
