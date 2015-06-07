@@ -1,0 +1,17 @@
+power <-  read.csv2("household_power_consumption.txt", na.strings = "?", colClasses = c("character","character","numeric","numeric","numeric","numeric","numeric","numeric","numeric"), dec=".")
+power$Date <- as.Date(power$Date, "%d/%m/%Y")
+power <- power[power$Date == as.Date("2007-02-01","%Y-%m-%d") | power$Date == as.Date("2007-02-02","%Y-%m-%d"), ]
+power$dateTime   <- as.POSIXlt(paste(power$Date, power$Time, sep=" "))
+
+png("plot4.png")
+par(mfcol = c(2,2))
+with(power, plot(dateTime, Global_active_power, type = "l", xlab = "", ylab = "Global Active Power"))
+with(power, { plot(dateTime, Sub_metering_1, type = "n", xlab = "", ylab = "Energy sub metering")
+              lines(dateTime, Sub_metering_1)
+              lines(dateTime, Sub_metering_2, col = "red")
+              lines(dateTime, Sub_metering_3, col = "blue")
+              legend("topright", col = c("black", "red", "blue"), legend = c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"), lty = 1, bty = "n")
+            })
+with(power, plot(dateTime, Voltage, type = "l", xlab = "datetime"))
+with(power, plot(dateTime, Global_reactive_power, type = "l", xlab = "datetime"))
+dev.off()
